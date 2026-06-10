@@ -1,209 +1,235 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pura Pizza — Идеальная пицца</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Го в Бравл?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: #FAF9F6;
-            color: #1A1A1A;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Декоративные фоновые элементы */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: -1;
-            opacity: 0.6;
-            animation: float 8s ease-in-out infinite;
-        }
-        .blob-1 { width: 400px; height: 400px; background: #FFD6D6; top: -100px; left: -100px; }
-        .blob-2 { width: 350px; height: 350px; background: #FFF0C2; bottom: 10%; right: -50px; animation-delay: -4s; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffe4f0 0%, #ffc2e0 50%, #ffaad6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(30px) scale(1.05); }
-        }
+    /* floating hearts bg */
+    body::before {
+      content: '💗 💕 💖 💗 💕';
+      position: fixed;
+      top: -40px; left: 0; right: 0;
+      font-size: 2rem;
+      text-align: center;
+      letter-spacing: 3rem;
+      opacity: 0.18;
+      animation: floatHearts 8s linear infinite;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    @keyframes floatHearts {
+      from { transform: translateY(0); }
+      to   { transform: translateY(110vh); }
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            padding: 40px 10%;
-            align-items: center;
-        }
+    .card {
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      padding: 40px 36px 36px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255,100,180,0.18);
+      border: 2px solid rgba(255,180,220,0.5);
+    }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: #E63946;
-            text-transform: uppercase;
-        }
+    .photo-wrap {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      overflow: hidden;
+      border: 4px solid #ff85c2;
+      box-shadow: 0 4px 20px rgba(255,100,180,0.3);
+    }
 
-        .hero {
-            min-height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        h1 {
-            font-size: clamp(3rem, 5vw, 5rem);
-            margin-bottom: 20px;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -2px;
-        }
+    /* placeholder if no image */
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff85c2, #ffb3d9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
 
-        h1 span {
-            color: #E63946;
-        }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #d63384;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
 
-        p.subtitle {
-            font-size: 1.2rem;
-            color: #555;
-            max-width: 500px;
-            margin-bottom: 50px;
-            line-height: 1.6;
-            font-weight: 300;
-        }
+    .subtitle {
+      font-size: 1rem;
+      color: #e06fa0;
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
 
-        /* Анимированная кнопка */
-        .btn-order {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 50px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #FFF;
-            background: #1A1A1A;
-            border-radius: 60px;
-            text-decoration: none;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
+    .question {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #c2185b;
+      margin-bottom: 28px;
+    }
 
-        .btn-order span {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      min-height: 60px;
+      position: relative;
+    }
 
-        .btn-order::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #E63946;
-            border-radius: 60px;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 1;
-        }
+    .btn-yes {
+      background: linear-gradient(135deg, #ff4da6, #ff85c2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255,77,166,0.35);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn-yes:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 24px rgba(255,77,166,0.45);
+    }
+    .btn-yes:active {
+      transform: scale(0.97);
+    }
 
-        .btn-order:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(230, 57, 70, 0.3);
-        }
+    .btn-no {
+      background: rgba(255,255,255,0.7);
+      color: #e06fa0;
+      border: 2px solid #ffb3d9;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+      transition: left 0.05s, top 0.05s;
+      white-space: nowrap;
+      user-select: none;
+    }
 
-        .btn-order:hover::before {
-            transform: scaleX(1);
-        }
-
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            padding: 60px 10%;
-            flex-wrap: wrap;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        .feature {
-            text-align: center;
-            max-width: 250px;
-        }
-
-        .feature h3 {
-            font-weight: 800;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .feature p {
-            font-size: 0.95rem;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* SVG Иконка Telegram */
-        .tg-icon {
-            width: 20px;
-            height: 20px;
-            fill: #FFF;
-        }
-
-    </style>
+    /* yes modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255,180,220,0.45);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal {
+      background: white;
+      border-radius: 28px;
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(255,100,180,0.25);
+      animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal .emoji { font-size: 3rem; margin-bottom: 12px; }
+    .modal h2 { color: #d63384; font-size: 1.5rem; font-weight: 900; }
+  </style>
 </head>
 <body>
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+  <div class="card">
+    <div class="photo-wrap">
+      <!-- Замени src на свою фото -->
+      <div class="photo-placeholder">🎮</div>
+      <!-- <img src="B92D47B9-326A-4EDF-B2FF-2F8A46A0F710_AC35B53D-02D0-44EA-A3B0-F54A00C748EB.jpeg" alt="фото" /> -->
+    </div>
 
-    <header>
-        <div class="logo">Pura Pizza</div>
-    </header>
+    <h1>Го в Бравл Старс? 🎮</h1>
+    <p class="subtitle">не откажешься же...</p>
 
-    <section class="hero">
-        <h1>Меньше деталей.<br><span>Больше вкуса.</span></h1>
-        <p class="subtitle">Идеальное тесто, крафтовые ингредиенты и минималистичный подход. Закажите прямо сейчас через личный чат в Telegram.</p>
-        
-        <a href="https://t.me/duleth" target="_blank" class="btn-order">
-            <span>
-                Написать @duleth
-                <svg class="tg-icon" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.98 1.25-5.6 3.68-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.38-.49 1.03-.75 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.64-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.22z"/>
-                </svg>
-            </span>
-        </a>
-    </section>
+    <p class="question">Сыграем вместе? 🌸</p>
 
-    <section class="features">
-        <div class="feature">
-            <h3>Живое тесто</h3>
-            <p>48 часов ферментации для невесомой и хрустящей корочки.</p>
-        </div>
-        <div class="feature">
-            <h3>Чистый состав</h3>
-            <p>Ничего лишнего. Только локальные фермерские продукты.</p>
-        </div>
-        <div class="feature">
-            <h3>Быстрый коннект</h3>
-            <p>Никаких сложных корзин. Прямой заказ через Telegram за пару минут.</p>
-        </div>
-    </section>
+    <div class="buttons" id="btnArea">
+      <button class="btn-yes" onclick="sayYes()">Да 🥳</button>
+      <button class="btn-no" id="btnNo" onmouseover="runAway()" ontouchstart="runAway()">Нет 😅</button>
+    </div>
+  </div>
 
+  <!-- modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="emoji">🎉💗</div>
+      <h2>Ура! Жду в игре! 🥳</h2>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btnNo');
+    const area = document.getElementById('btnArea');
+
+    function runAway() {
+      const areaRect = area.getBoundingClientRect();
+      const btnRect  = btn.getBoundingClientRect();
+
+      // random offset
+      const maxX = window.innerWidth  - btnRect.width  - 20;
+      const maxY = window.innerHeight - btnRect.height - 20;
+
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+
+      btn.style.position = 'fixed';
+      btn.style.left = newX + 'px';
+      btn.style.top  = newY + 'px';
+      btn.style.right = 'auto';
+      btn.style.zIndex = 99;
+    }
+
+    function sayYes() {
+      document.getElementById('modal').classList.add('show');
+    }
+  </script>
 </body>
 </html>
