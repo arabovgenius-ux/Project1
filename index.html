@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORN — Organizers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ivory:   #F5F2EC;
+    --oak:     #C8A96E;
+    --graphite:#2E2E2C;
+    --warm-mid:#7A6E60;
+    --white:   #FDFCFA;
+    --gap:     clamp(3rem, 8vw, 7rem);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--graphite);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4vw;
+    mix-blend-mode: normal;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(245,242,236,0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 0.5px solid rgba(46,46,44,0.1);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.4s;
+  }
+  nav.scrolled .nav-logo { color: var(--graphite); }
+  .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav.scrolled .nav-links a { color: var(--warm-mid); }
+  .nav-links a:hover { color: var(--oak); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 4vw clamp(3rem, 7vh, 5rem);
+  }
+
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(160deg, #3a3228 0%, #1e1b17 100%);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(20,18,14,0.72) 0%,
+      rgba(20,18,14,0.18) 55%,
+      rgba(20,18,14,0.05) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oak);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--oak);
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(253,252,250,0.62);
+    max-width: 380px;
+    margin-bottom: 2.4rem;
+    line-height: 1.8;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 0.85rem 2.4rem;
+    border: 1px solid rgba(253,252,250,0.45);
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+  }
+  .hero-cta:hover {
+    background: var(--oak);
+    border-color: var(--oak);
+    color: var(--white);
+  }
+
+  /* ── INTRO STRIP ── */
+  .intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: 0.5px solid rgba(46,46,44,0.12);
+    border-bottom: 0.5px solid rgba(46,46,44,0.12);
+    margin: var(--gap) 0 0;
+  }
+  .intro-item {
+    padding: 2.4rem 4vw;
+    border-right: 0.5px solid rgba(46,46,44,0.12);
+  }
+  .intro-item:last-child { border-right: none; }
+  .intro-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--oak);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .intro-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .intro-desc { font-size: 13px; color: var(--warm-mid); line-height: 1.6; }
+
+  /* ── PRODUCTS ── */
+  .section {
+    padding: var(--gap) 4vw;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oak);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.12;
+    margin-bottom: 3.5rem;
+    max-width: 520px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: rgba(46,46,44,0.1);
+    border: 0.5px solid rgba(46,46,44,0.1);
+  }
+
+  .product-card {
+    background: var(--ivory);
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .product-img-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .product-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                opacity 0.4s;
+  }
+
+  .product-img-wrap .img-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .product-card:hover .img-hover { opacity: 1; }
+  .product-card:hover .img-primary { opacity: 0; }
+  .product-card:hover .product-img-wrap img { transform: scale(1.03); }
+
+  .product-info {
+    padding: 1.4rem 1.6rem 1.8rem;
+    border-top: 0.5px solid rgba(46,46,44,0.1);
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+  }
+
+  .product-material {
+    font-size: 12px;
+    color: var(--warm-mid);
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  .product-price {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+
+  .product-buy {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.7rem 1.4rem;
+    border: 0.5px solid var(--graphite);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+    width: 100%;
+  }
+  .product-buy:hover {
+    background: var(--graphite);
+    color: var(--ivory);
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: var(--gap) 4vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .about-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5px;
+    background: rgba(46,46,44,0.1);
+  }
+
+  .about-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 3/4;
+    transition: transform 0.6s;
+  }
+
+  .about-img-main {
+    grid-column: 1 / 3;
+    aspect-ratio: 16/7;
+  }
+
+  .about-images:hover .about-img { transform: scale(1.015); }
+
+  .about-text { padding: 1rem 0; }
+
+  .about-body {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--warm-mid);
+    margin-bottom: 2rem;
+  }
+
+  .about-body strong {
+    font-weight: 400;
+    color: var(--graphite);
+  }
+
+  .about-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .about-detail-item {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    padding-top: 1.2rem;
+    border-top: 0.5px solid rgba(46,46,44,0.12);
+  }
+
+  .detail-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--oak);
+    min-width: 2rem;
+    line-height: 1;
+  }
+
+  .detail-text { font-size: 13px; color: var(--warm-mid); line-height: 1.7; }
+  .detail-text strong { font-weight: 500; color: var(--graphite); }
+
+  /* ── GALLERY STRIP ── */
+  .gallery-strip {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5px;
+    background: rgba(46,46,44,0.1);
+    scrollbar-width: none;
+    cursor: grab;
+    padding: 0;
+  }
+  .gallery-strip::-webkit-scrollbar { display: none; }
+  .gallery-strip:active { cursor: grabbing; }
+
+  .gallery-strip img {
+    flex-shrink: 0;
+    height: clamp(200px, 40vw, 400px);
+    width: auto;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.4s;
+  }
+  .gallery-strip img:hover { filter: brightness(1.06); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 4vw;
+    border-top: 0.5px solid rgba(46,46,44,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    letter-spacing: 0.28em;
+    color: var(--graphite);
+    font-weight: 300;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--warm-mid);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(20,18,14,0.92);
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 0.5px solid rgba(255,255,255,0.1);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.4rem; right: 1.8rem;
+    font-size: 1.8rem;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: var(--white); }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .intro { grid-template-columns: 1fr; }
+    .intro-item { border-right: none; border-bottom: 0.5px solid rgba(46,46,44,0.12); }
+    .intro-item:last-child { border-bottom: none; }
+    .about { grid-template-columns: 1fr; }
+    .about-images { order: -1; }
+    .nav-links { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .product-img-wrap img, .about-img { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">VORN</a>
+  <ul class="nav-links">
+    <li><a href="#products">Коллекция</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#contact">Контакт</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-fallback"></div>
+  <video
+    class="hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="IMG_3687.jpeg"
+  >
+    <source src="Desk_organizer_with_sunli.mp4" type="video/mp4">
+    <source src="Desk_organizer_with_sunli.mov" type="video/quicktime">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Модульные органайзеры · Дуб & Алюминий</span>
+    <h1 class="hero-title">Пространство для<br><em>ясного мышления</em></h1>
+    <p class="hero-sub">Органайзеры VORN созданы из вощёного европейского дуба и матового алюминия. Без пластика. Без лишнего.</p>
+    <a href="#products" class="hero-cta">Смотреть коллекцию</a>
+  </div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro reveal">
+  <div class="intro-item">
+    <span class="intro-num">01</span>
+    <span class="intro-label">Материал</span>
+    <p class="intro-desc">Вощёный европейский дуб, матовый алюминий, бетонные вставки</p>
+  </div>
+  <div class="intro-item">
+    <span class="intro-num">02</span>
+    <span class="intro-label">Модульность</span>
+    <p class="intro-desc">Блоки соединяются без инструментов — система масштабируется под ваш стол</p>
+  </div>
+  <div class="intro-item">
+    <span class="intro-num">03</span>
+    <span class="intro-label">Производство</span>
+    <p class="intro-desc">Каждый элемент изготавливается вручную небольшими партиями</p>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products" class="section">
+  <span class="section-eyebrow reveal">Коллекция</span>
+  <h2 class="section-title reveal">Выберите то,<br>что нужно вашему столу</h2>
+
+  <div class="products-grid">
+
+    <div class="product-card reveal">
+      <div class="product-img-wrap">
+        <img class="img-primary" src="IMG_3687.jpeg" alt="Органайзер Base — вид спереди" loading="lazy">
+        <img class="img-hover" src="IMG_3688.jpeg" alt="Органайзер Base — деталь" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="product-name">VORN Base</div>
+        <div class="product-material">Дуб · Алюминий · 3 секции</div>
+        <div class="product-price">от 12 900 ₸</div>
+        <button class="product-buy">Заказать</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img-wrap">
+        <img class="img-primary" src="IMG_3690.jpeg" alt="Органайзер Wide — вид спереди" loading="lazy">
+        <img class="img-hover" src="IMG_3691.jpeg" alt="Органайзер Wide — lifestyle" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="product-name">VORN Wide</div>
+        <div class="product-material">Дуб · Бетон · 5 секций</div>
+        <div class="product-price">от 18 500 ₸</div>
+        <button class="product-buy">Заказать</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img-wrap">
+        <img class="img-primary" src="IMG_3692.jpeg" alt="Органайзер Slim — вид спереди" loading="lazy">
+        <img class="img-hover" src="IMG_3687.jpeg" alt="Органайзер Slim — деталь" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="product-name">VORN Slim</div>
+        <div class="product-material">Дуб тёмный · Алюминий · 2 секции</div>
+        <div class="product-price">от 9 800 ₸</div>
+        <button class="product-buy">Заказать</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY STRIP (draggable) -->
+<div class="gallery-strip" id="galleryStrip">
+  <img src="IMG_3687.jpeg" alt="Деталь 1" onclick="openLightbox(this.src)">
+  <img src="IMG_3688.jpeg" alt="Деталь 2" onclick="openLightbox(this.src)">
+  <img src="IMG_3690.jpeg" alt="Деталь 3" onclick="openLightbox(this.src)">
+  <img src="IMG_3691.jpeg" alt="Деталь 4" onclick="openLightbox(this.src)">
+  <img src="IMG_3692.jpeg" alt="Деталь 5" onclick="openLightbox(this.src)">
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="about-images reveal">
+    <img class="about-img about-img-main" src="IMG_3690.jpeg" alt="Производство VORN">
+    <img class="about-img" src="IMG_3691.jpeg" alt="Материалы">
+    <img class="about-img" src="IMG_3692.jpeg" alt="Детали">
+  </div>
+
+  <div class="about-text reveal">
+    <span class="section-eyebrow">О бренде</span>
+    <h2 class="section-title" style="margin-bottom:1.6rem">Сделано с вниманием<br>к каждому стыку</h2>
+    <p class="about-body">
+      VORN — это <strong>не про декор</strong>. Это про среду, в которой думается лучше. Мы убираем с вашего стола всё лишнее и заменяем это одной вещью, которая работает правильно.
+    </p>
+    <div class="about-detail">
+      <div class="about-detail-item">
+        <span class="detail-num">①</span>
+        <div class="detail-text"><strong>Дуб без компромиссов.</strong> Только европейская древесина с живым рисунком волокна, вощение маслом — без лаков и пластика.</div>
+      </div>
+      <div class="about-detail-item">
+        <span class="detail-num">②</span>
+        <div class="detail-text"><strong>Алюминий авиационного класса.</strong> Соединения фрезерованы с допуском 0.1 мм — модули не люфтят и не скрипят.</div>
+      </div>
+      <div class="about-detail-item">
+        <span class="detail-num">③</span>
+        <div class="detail-text"><strong>Без упаковки из пластика.</strong> Доставка в крафтовой бумаге. Компания не использует одноразовые материалы в производстве.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <span class="footer-logo">VORN</span>
+  <span class="footer-copy">© 2025 VORN. Все права защищены.</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Lightbox
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Draggable gallery
+  const strip = document.getElementById('galleryStrip');
+  let isDragging = false, startX, scrollLeft;
+  strip.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.pageX - strip.offsetLeft;
+    scrollLeft = strip.scrollLeft;
+    strip.style.userSelect = 'none';
+  });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+  strip.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - strip.offsetLeft;
+    strip.scrollLeft = scrollLeft - (x - startX) * 1.2;
+  });
+
+  // Video autoplay fallback
+  const video = document.querySelector('.hero-video');
+  if (video) {
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
